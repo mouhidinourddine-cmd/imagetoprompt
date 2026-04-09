@@ -88,6 +88,26 @@ app.get("/fetch-image", async (req, res) => {
   }
 });
 
+// Sitemap
+app.get("/sitemap.xml", (req, res) => {
+  res.header("Content-Type", "application/xml");
+  res.send(`<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://imagetoprompt.space</loc>
+    <lastmod>${new Date().toISOString().split("T")[0]}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>`);
+});
+
+// Robots.txt
+app.get("/robots.txt", (req, res) => {
+  res.header("Content-Type", "text/plain");
+  res.send(`User-agent: *\nAllow: /\nSitemap: https://imagetoprompt.space/sitemap.xml`);
+});
+
 // Serve index.html for all other routes
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
